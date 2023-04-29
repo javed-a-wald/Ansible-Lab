@@ -1,0 +1,21 @@
+Install and configure Apache web server: 
+This playbook installs the Apache web server and configures it with specific settings and modules based on your requirements.
+
+---
+- hosts: web_servers
+  become: true
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: latest
+    - name: Copy configuration file
+      copy:
+        src: httpd.conf
+        dest: /etc/httpd/conf/httpd.conf
+      notify: restart Apache
+  handlers:
+    - name: restart Apache
+      service:
+        name: httpd
+        state: restarted
